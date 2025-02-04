@@ -1,3 +1,4 @@
+import {useShapeStore} from '@/store/shapeStore';
 import {cn} from '@/utils/cn';
 import {
   ClipboardPaste,
@@ -27,7 +28,6 @@ const MENU_ITEMS: Record<
       color?: string;
       available: boolean;
       type: 'sm' | 'lg';
-      action?: () => void;
     }[];
   }[]
 > = {
@@ -145,18 +145,12 @@ const MENU_ITEMS: Record<
           label: '사각형',
           available: true,
           type: 'lg',
-          action: () => {
-            console.log('square');
-          },
         },
         {
           icon: <Circle />,
           label: '원',
           available: true,
           type: 'lg',
-          action: () => {
-            console.log('circle');
-          },
         },
       ],
     },
@@ -183,6 +177,8 @@ const MENU_ITEMS: Record<
 };
 
 export default function RibbonMenu({currentTab}: {currentTab: string}) {
+  const addShape = useShapeStore(state => state.addShape);
+
   return (
     <div
       className={cn(
@@ -198,7 +194,13 @@ export default function RibbonMenu({currentTab}: {currentTab: string}) {
                 .filter(item => item.type === 'lg')
                 .map((item, i) => (
                   <button
-                    onClick={item.action ? item.action : undefined}
+                    onClick={
+                      item.label === '사각형'
+                        ? () => addShape('rectangle')
+                        : item.label === '원'
+                        ? () => addShape('circle')
+                        : undefined
+                    }
                     key={i}
                     className={cn(
                       'flex flex-col gap-3 items-center p-3 rounded hover:bg-gray-100',
@@ -220,7 +222,13 @@ export default function RibbonMenu({currentTab}: {currentTab: string}) {
                 .filter(item => item.type === 'sm')
                 .map((item, i) => (
                   <button
-                    onClick={item.action ? item.action : undefined}
+                    onClick={
+                      item.label === '사각형'
+                        ? () => addShape('rectangle')
+                        : item.label === '원'
+                        ? () => addShape('circle')
+                        : undefined
+                    }
                     key={i}
                     className={cn(
                       'flex items-center gap-2 p-2 rounded hover:bg-gray-100',
