@@ -81,40 +81,76 @@ export default function Slide() {
   }, [draggingShape]);
 
   return (
-    <div className='relative flex w-screen'>
-      <div
-        ref={containerRef}
-        className='absolute flex w-full flex-col items-center justify-center'>
+    <>
+      <main className='relative h-full flex w-screen'>
         <div
-          className={cn(
-            'flex rounded-lg border-neutral-300 bg-white shadow-xl translate ease-out duration-200',
-          )}
-          style={{
-            width: 1600,
-            height: 900,
-            transform: `scale(${ratio})`,
-            transformOrigin: 'top',
-          }}>
-          <div className='relative h-full w-full'>
-            {shapes.map(shape => (
-              <div
-                key={shape.id}
-                className='absolute cursor-pointer'
-                onMouseDown={handleMouseDown(shape.id, shape.x, shape.y)}
-                style={{
-                  left: shape.x,
-                  top: shape.y,
-                  width: shape.width,
-                  height: shape.type === 'circle' ? shape.width : shape.height,
-                  backgroundColor: shape.color,
-                  borderRadius: shape.type === 'circle' ? '50%' : '0',
-                  border: `3px solid ${shape.borderColor}`,
-                }}
-              />
-            ))}
+          ref={containerRef}
+          className='absolute h-full flex w-full flex-col items-center justify-center'>
+          <div
+            className={cn(
+              'flex rounded-lg border-neutral-300 bg-white shadow-xl translate ease-out duration-200',
+            )}
+            style={{
+              width: 1600,
+              height: 900,
+              transform: `scale(${ratio})`,
+              transformOrigin: 'top',
+            }}>
+            <div className='relative h-full w-full'>
+              {shapes.map(shape => (
+                <div
+                  key={shape.id}
+                  className='absolute cursor-pointer'
+                  onMouseDown={handleMouseDown(shape.id, shape.x, shape.y)}
+                  style={{
+                    left: shape.x,
+                    top: shape.y,
+                    width: shape.width,
+                    height:
+                      shape.type === 'circle' ? shape.width : shape.height,
+                    backgroundColor: shape.color,
+                    borderRadius: shape.type === 'circle' ? '50%' : '0',
+                    border: `3px solid ${shape.borderColor}`,
+                  }}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </main>
+      <footer className='justify-end border-t border-slate-300 fixed bottom-0 w-full py-1 px-4 flex items-center z-50'>
+        <div className='flex justify-center items-center gap-2'>
+          <button
+            onClick={() => setRatio(prev => Math.max(0.1, prev - 0.05))}
+            className='text-slate-500 cursor-pointer'>
+            -
+          </button>
+          <input
+            type='range'
+            min='10'
+            max='200'
+            value={ratio * 100}
+            step='5'
+            onChange={e => setRatio(Number(e.target.value) / 100)}
+            className='cursor-pointer'
+            style={{
+              height: '8px',
+              background: '#d3d3d3',
+              WebkitAppearance: 'none',
+              borderRadius: '10px',
+              outline: 'none',
+              transition: 'background 450ms ease-in',
+              accentColor: '#404040',
+            }}
+          />
+          <button
+            onClick={() => setRatio(prev => Math.min(2, prev + 0.05))}
+            className='text-slate-500 cursor-pointer'>
+            +
+          </button>
+          <span className='text-sm'>{Math.round(ratio * 100)}%</span>
+        </div>
+      </footer>
+    </>
   );
 }
