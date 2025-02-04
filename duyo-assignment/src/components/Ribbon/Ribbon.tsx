@@ -1,10 +1,11 @@
 'use client';
 
+import {memo} from 'react';
 import RibbonMenu from './RibbonMenu/RibbonMenu';
 import RibbonTab from './RibbonTab/RibbonTab';
 import {useTabs} from './hooks/useTabs';
 
-export default function Ribbon() {
+function Ribbon() {
   const {currentTab, selectTab} = useTabs();
 
   return (
@@ -17,3 +18,5 @@ export default function Ribbon() {
     </div>
   );
 }
+
+export default memo(Ribbon);

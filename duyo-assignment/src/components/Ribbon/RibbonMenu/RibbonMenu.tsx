@@ -27,6 +27,7 @@ const MENU_ITEMS: Record<
       color?: string;
       available: boolean;
       type: 'sm' | 'lg';
+      action?: () => void;
     }[];
   }[]
 > = {
@@ -144,8 +145,19 @@ const MENU_ITEMS: Record<
           label: '사각형',
           available: true,
           type: 'lg',
+          action: () => {
+            console.log('square');
+          },
         },
-        {icon: <Circle />, label: '원', available: true, type: 'lg'},
+        {
+          icon: <Circle />,
+          label: '원',
+          available: true,
+          type: 'lg',
+          action: () => {
+            console.log('circle');
+          },
+        },
       ],
     },
   ],
@@ -186,6 +198,7 @@ export default function RibbonMenu({currentTab}: {currentTab: string}) {
                 .filter(item => item.type === 'lg')
                 .map((item, i) => (
                   <button
+                    onClick={item.action ? item.action : undefined}
                     key={i}
                     className={cn(
                       'flex flex-col gap-3 items-center p-3 rounded hover:bg-gray-100',
@@ -207,6 +220,7 @@ export default function RibbonMenu({currentTab}: {currentTab: string}) {
                 .filter(item => item.type === 'sm')
                 .map((item, i) => (
                   <button
+                    onClick={item.action ? item.action : undefined}
                     key={i}
                     className={cn(
                       'flex items-center gap-2 p-2 rounded hover:bg-gray-100',
