@@ -1,15 +1,28 @@
 'use client';
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {TAB} from '@/constants';
 import TabItem from './TabItem';
 
 interface RibbonTabProps {
   currentTab: string;
   selectTab: (tab: string) => void;
+  isMenuHidden: boolean;
+  setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function RibbonTab({currentTab, selectTab}: RibbonTabProps) {
+export default function RibbonTab({
+  currentTab,
+  selectTab,
+  isMenuHidden,
+  setIsMenuOpen,
+}: RibbonTabProps) {
   const [indicatorStyle, setIndicatorStyle] = useState({left: 0, width: 0});
   const tabsRef = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -37,6 +50,8 @@ export default function RibbonTab({currentTab, selectTab}: RibbonTabProps) {
               tabName={tabName}
               selectTab={selectTab}
               currentTab={currentTab}
+              isMenuHidden={isMenuHidden}
+              setIsMenuOpen={setIsMenuOpen}
             />
           </div>
         ))}

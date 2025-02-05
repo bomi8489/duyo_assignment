@@ -1,6 +1,6 @@
 'use client';
 
-import {memo, useEffect, useState} from 'react';
+import {memo, useEffect, useRef, useState} from 'react';
 import RibbonMenu from './RibbonMenu/RibbonMenu';
 import RibbonTab from './RibbonTab/RibbonTab';
 import {useTabs} from './hooks/useTabs';
@@ -12,6 +12,22 @@ function Ribbon() {
   const {isMenuHidden} = useRibbonStore();
   const [shouldRender, setShouldRender] = useState(true);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const ribbonRef = useRef<HTMLDivElement>(null);
+
+  // 리본메뉴 외부 클릭 감지
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (ribbonRef.current && !ribbonRef.current.contains(e.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     if (isMenuHidden) {
@@ -32,10 +48,14 @@ function Ribbon() {
   }, [isMenuHidden]);
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div
+      ref={ribbonRef}
+      className='flex flex-col gap-4'>
       <RibbonTab
         currentTab={currentTab}
         selectTab={selectTab}
+        isMenuHidden={isMenuHidden}
+        setIsMenuOpen={setIsMenuOpen}
       />
 
       {shouldRender && (
@@ -44,6 +64,11 @@ function Ribbon() {
             'transition-opacity duration-300 ease-out',
             isAnimating ? 'opacity-100' : 'opacity-0',
           )}>
+          <RibbonMenu currentTab={currentTab} />
+        </div>
+      )}
+      {isMenuOpen && (
+        <div className={cn('transition-opacity duration-300 ease-out')}>
           <RibbonMenu currentTab={currentTab} />
         </div>
       )}
