@@ -1,4 +1,5 @@
 import {useShapeStore} from '@/store/shapeStore';
+import {useSlideStore} from '@/store/slideStore';
 import {cn} from '@/utils/cn';
 import {
   ClipboardPaste,
@@ -176,8 +177,13 @@ const MENU_ITEMS: Record<
   ],
 };
 
-export default function RibbonMenu({currentTab}: {currentTab: string}) {
+interface RibbonMenuProps {
+  currentTab: string;
+}
+
+export default function RibbonMenu({currentTab}: RibbonMenuProps) {
   const addShape = useShapeStore(state => state.addShape);
+  const {saveAsPNG, saveAsSVG} = useSlideStore();
 
   return (
     <div
@@ -199,6 +205,10 @@ export default function RibbonMenu({currentTab}: {currentTab: string}) {
                         ? () => addShape('rectangle')
                         : item.label === '원'
                         ? () => addShape('circle')
+                        : item.label === 'SVG로 저장'
+                        ? saveAsSVG
+                        : item.label === 'PNG로 저장'
+                        ? saveAsPNG
                         : undefined
                     }
                     key={i}
@@ -227,6 +237,10 @@ export default function RibbonMenu({currentTab}: {currentTab: string}) {
                         ? () => addShape('rectangle')
                         : item.label === '원'
                         ? () => addShape('circle')
+                        : item.label === 'SVG로 저장'
+                        ? saveAsSVG
+                        : item.label === 'PNG로 저장'
+                        ? saveAsPNG
                         : undefined
                     }
                     key={i}

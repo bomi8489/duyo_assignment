@@ -1,3 +1,4 @@
+import {useRibbonStore} from '@/store/useRibbonStore';
 import {cn} from '@/utils/cn';
 
 interface TabItemProps {
@@ -11,9 +12,11 @@ export default function TabItem({
   selectTab,
   currentTab,
 }: TabItemProps) {
+  const {toggleMenu} = useRibbonStore();
   return (
     <button
       onClick={() => selectTab(tabName)}
+      onDoubleClick={toggleMenu}
       className={cn(
         'font-medium transition-colors',
         currentTab === tabName ? 'text-black font-black' : 'text-gray-500',

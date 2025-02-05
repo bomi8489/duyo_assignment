@@ -1,6 +1,6 @@
 import {create} from 'zustand';
 
-type Shape = {
+export type Shape = {
   id: string;
   type: 'circle' | 'rectangle';
   x: number;
