@@ -39,6 +39,6 @@ npm run dev
 - [x] 이미지 파일 추출 기능
 
   - [x] png 파일 저장
-  - [ ] svg 파일 저장 (오류 존재)
+  - [x] svg 파일 저장
 
   ![save](https://github.com/user-attachments/assets/1b2b8675-bd82-47d6-b9fe-e8c91d497eef)
