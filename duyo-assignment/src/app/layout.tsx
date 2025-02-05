@@ -10,8 +10,8 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Duyo Assignment',
-  description: 'Duyo Assignment',
+  title: '권기범 Duyo Assignment',
+  description: '권기범 Duyo Assignment',
 };
 
 export default function RootLayout({
